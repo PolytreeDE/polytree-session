@@ -11,7 +11,7 @@ INCS =
 LIBS =
 
 CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION=\"$(VERSION)\"
-CFLAGS = -std=c99 -pedantic -Wall -Os $(INCS) $(CPPFLAGS)
+CFLAGS = -std=c99 -pedantic -Wall -Wextra -Os $(INCS) $(CPPFLAGS)
 LDFLAGS = $(LIBS)
 
 CC = cc
