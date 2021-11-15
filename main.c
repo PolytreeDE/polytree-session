@@ -1,4 +1,4 @@
-#include "datetime.h"
+#include "status.h"
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -24,12 +24,12 @@ int main()
 		exit(EXIT_FAILURE);
 	}
 
-	datetime_start();
+	status_start();
 
 	int wm_status;
 	waitpid(wm_pid, &wm_status, 0);
 
-	datetime_stop();
+	status_stop();
 
 	exit(WEXITSTATUS(wm_status));
 }

@@ -2,8 +2,8 @@
 
 include config.mk
 
-SRC = datetime.c main.c
-HDR = datetime.h
+SRC = status.c main.c
+HDR = status.h
 OBJ = $(SRC:.c=.o)
 
 all: options polytree-session
