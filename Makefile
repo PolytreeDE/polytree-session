@@ -2,7 +2,8 @@
 
 include config.mk
 
-SRC = main.c
+SRC = datetime.c main.c
+HDR = datetime.h
 OBJ = $(SRC:.c=.o)
 
 all: options polytree-session
@@ -16,7 +17,7 @@ options:
 %.o: %.c
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-OBJ: config.mk
+OBJ: config.mk $(HDR)
 
 polytree-session: $(OBJ)
 	$(CC) -o $@ $(OBJ) $(LDFLAGS)
