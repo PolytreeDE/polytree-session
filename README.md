@@ -7,5 +7,6 @@ Useful packages
 * `lightdm`
 * `nitrogen`
 * `picom`
+* `sxhkd`
 * `sxiv`
 * `xcompmgr`
