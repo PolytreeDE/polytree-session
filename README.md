@@ -5,4 +5,4 @@ Useful packages
 * `gtk-chtheme`
 * `lightdm`
 * `nitrogen`
-* `xcompmgr`
+* `xcompmgr` / `picom`
