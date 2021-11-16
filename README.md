@@ -2,7 +2,10 @@ Useful packages
 ---------------
 
 * `fbxkb`
+* `feh`
 * `gtk-chtheme`
 * `lightdm`
 * `nitrogen`
-* `xcompmgr` / `picom`
+* `picom`
+* `sxiv`
+* `xcompmgr`
