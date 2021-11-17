@@ -1,0 +1,16 @@
+[package]
+name = "polytree-session"
+version = "0.0.0"
+authors = ["Alex Kotov <kotovalexarian@gmail.com>"]
+edition = "2021"
+description = "Polytree session manager"
+readme = true
+homepage = "https://github.com/PolytreeWM/polytree-session"
+repository = "https://github.com/PolytreeWM/polytree-session.git"
+license = "MIT"
+keywords = ["gui"]
+categories = ["gui"]
+publish = true
+
+[dependencies]
+libc = "0.2.107"

@@ -1,33 +1,17 @@
 # Polytree Session - session manager
 
+all: target/debug/polytree-session
+
 include config.mk
 
-SRC = status.c main.c
-HDR = status.h
-OBJ = $(SRC:.c=.o)
+SRC = Cargo.toml src/main.rs
 
-all: options polytree-session
-
-options:
-	@echo Polytree Session build options:
-	@echo "CFLAGS  = $(CFLAGS)"
-	@echo "LDFLAGS = $(LDFLAGS)"
-	@echo "CC      = $(CC)"
-
-%.o: %.c
-	$(CC) -c $< -o $@ $(CFLAGS)
-
-OBJ: config.mk $(HDR)
-
-polytree-session: $(OBJ)
-	$(CC) -o $@ $(OBJ) $(LDFLAGS)
-
-clean:
-	rm -f polytree-session $(OBJ)
+target/debug/polytree-session: $(SRC)
+	cargo build
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	cp -f polytree-session $(DESTDIR)$(PREFIX)/bin
+	cp -f target/debug/polytree-session $(DESTDIR)$(PREFIX)/bin
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/polytree-session
 
 xinstall: install
@@ -45,4 +29,4 @@ uninstall:
 		$(DESTDIR)$(ICONSPREFIX)/polytree.png \
 		$(DESTDIR)$(XSESSIONSPREFIX)/polytree.desktop
 
-.PHONY: all options clean install xinstall uninstall
+.PHONY: all install xinstall uninstall
