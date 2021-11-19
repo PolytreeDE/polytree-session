@@ -2,7 +2,11 @@
 
 all: target/debug/polytree-session
 
-include config.mk
+PREFIX = /usr/local
+SYSPREFIX = /usr
+
+ICONSPREFIX = $(SYSPREFIX)/share/icons
+XSESSIONSPREFIX = $(SYSPREFIX)/share/xsessions
 
 SRC = Cargo.toml src/main.rs
 
