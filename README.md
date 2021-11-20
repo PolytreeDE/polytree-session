@@ -1,12 +1,28 @@
 Useful packages
 ---------------
 
-* `fbxkb`
-* `feh`
-* `gtk-chtheme`
+### Login manager
+
 * `lightdm`
-* `nitrogen`
-* `picom`
+
+### Hotkey manager
+
 * `sxhkd`
-* `sxiv`
+
+### Terminal
+
+* [Alacritty](https://github.com/alacritty/alacritty)
+
+### Wallpaper
+
+* `feh`
+* `nitrogen`
+
+### Compositor
+
+* `picom`
 * `xcompmgr`
+
+### Other
+
+* `gtk-chtheme`
