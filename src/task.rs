@@ -1,17 +1,18 @@
 use std::ffi::CString;
+use std::fmt::Debug;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct TaskConfig {
     exe: String,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct TaskInfo {
     config: TaskConfig,
     pid: libc::pid_t,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct TaskResult {
     info: TaskInfo,
     status: i32,
@@ -57,7 +58,7 @@ impl TaskResult {
     }
 }
 
-pub trait Task: Sized {
+pub trait Task: Debug + Sized {
     fn new(info: TaskInfo) -> Self;
     fn info(&self) -> &TaskInfo;
 

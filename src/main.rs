@@ -10,6 +10,7 @@ fn main() {
     unsafe { libc::exit(wm_task_status) }
 }
 
+#[derive(Debug)]
 struct WMTask(TaskInfo);
 
 impl Task for WMTask {
