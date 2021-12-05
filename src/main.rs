@@ -3,11 +3,9 @@ mod task;
 use crate::task::*;
 
 fn main() {
-    let wm_task_config = TaskConfig::new("polytreewm");
-    let wm_task = WMTask::start(wm_task_config).unwrap();
+    let wm_task = WMTask::start(TaskConfig::new("polytreewm")).unwrap();
     let wm_task_result = wm_task.wait();
-    let wm_task_status = wm_task_result.status();
-    unsafe { libc::exit(wm_task_status) }
+    unsafe { libc::exit(wm_task_result.status()) }
 }
 
 #[derive(Debug)]
