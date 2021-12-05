@@ -2,16 +2,26 @@ use std::ffi::CString;
 
 fn main() {
     let wm_task = WMTask::start().unwrap();
-    unsafe { libc::exit(wm_task.wait()) }
+    unsafe { libc::exit(wm_task.wait().status()) }
 }
 
 trait Task: Sized {
     fn start() -> Result<Self, String>;
-    fn wait(self) -> i32;
+    fn wait(self) -> TaskResult;
+}
+
+struct TaskResult {
+    status: i32,
 }
 
 struct WMTask {
     pid: libc::pid_t,
+}
+
+impl TaskResult {
+    fn status(&self) -> i32 {
+        self.status
+    }
 }
 
 impl Task for WMTask {
@@ -34,11 +44,12 @@ impl Task for WMTask {
         }
     }
 
-    fn wait(self) -> i32 {
+    fn wait(self) -> TaskResult {
         unsafe {
             let status: i32 = 0;
             libc::waitpid(self.pid, status as *mut i32, 0);
-            libc::WEXITSTATUS(status)
+            let status = libc::WEXITSTATUS(status);
+            TaskResult { status }
         }
     }
 }
