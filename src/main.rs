@@ -20,7 +20,7 @@ impl Task for WMTask {
             let pid = libc::fork();
 
             if pid == -1 {
-                return Err("fork".into())
+                return Err("fork".into());
             }
 
             if pid == 0 {
