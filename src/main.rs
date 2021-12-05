@@ -1,3 +1,7 @@
+mod task;
+
+use crate::task::*;
+
 use std::ffi::CString;
 
 fn main() {
@@ -5,23 +9,8 @@ fn main() {
     unsafe { libc::exit(wm_task.wait().status()) }
 }
 
-trait Task: Sized {
-    fn start() -> Result<Self, String>;
-    fn wait(self) -> TaskResult;
-}
-
-struct TaskResult {
-    status: i32,
-}
-
 struct WMTask {
     pid: libc::pid_t,
-}
-
-impl TaskResult {
-    fn status(&self) -> i32 {
-        self.status
-    }
 }
 
 impl Task for WMTask {
@@ -49,7 +38,7 @@ impl Task for WMTask {
             let status: i32 = 0;
             libc::waitpid(self.pid, status as *mut i32, 0);
             let status = libc::WEXITSTATUS(status);
-            TaskResult { status }
+            TaskResult::new(status)
         }
     }
 }
