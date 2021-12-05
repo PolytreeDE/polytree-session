@@ -1,29 +1,44 @@
 use std::ffi::CString;
 
 fn main() {
-    unsafe { unsafe_main() }
+    let wm_task = WMTask::start().unwrap();
+    unsafe { libc::exit(wm_task.wait()) }
 }
 
-unsafe fn unsafe_main() {
-    let wm_pid = libc::fork();
+trait Task: Sized {
+    fn start() -> Result<Self, String>;
+    fn wait(self) -> i32;
+}
 
-    if wm_pid == -1 {
-        let msg = CString::new(b"polytree-session: WM fork" as &[u8]).unwrap();
-        libc::perror(msg.as_ptr());
-        libc::exit(libc::EXIT_FAILURE);
+struct WMTask {
+    pid: libc::pid_t,
+}
+
+impl Task for WMTask {
+    fn start() -> Result<Self, String> {
+        unsafe {
+            let pid = libc::fork();
+
+            if pid == -1 {
+                return Err("fork".into())
+            }
+
+            if pid == 0 {
+                let arg0 = CString::new(b"polytreewm" as &[u8]).unwrap();
+                let args = vec![arg0.as_ptr(), std::ptr::null()];
+                libc::execvp(arg0.as_ptr(), args.as_ptr());
+                libc::exit(libc::EXIT_FAILURE);
+            }
+
+            Ok(Self { pid })
+        }
     }
 
-    if wm_pid == 0 {
-        let arg0 = CString::new(b"polytreewm" as &[u8]).unwrap();
-        let args = vec![arg0.as_ptr(), std::ptr::null()];
-        libc::execvp(arg0.as_ptr(), args.as_ptr());
-        let msg = CString::new(b"polytree-session: WM exec" as &[u8]).unwrap();
-        libc::perror(msg.as_ptr());
-        libc::exit(libc::EXIT_FAILURE);
+    fn wait(self) -> i32 {
+        unsafe {
+            let status: i32 = 0;
+            libc::waitpid(self.pid, status as *mut i32, 0);
+            libc::WEXITSTATUS(status)
+        }
     }
-
-    let wm_status: i32 = 0;
-    libc::waitpid(wm_pid, wm_status as *mut i32, 0);
-
-    libc::exit(libc::WEXITSTATUS(wm_status));
 }
