@@ -32,6 +32,7 @@ impl TaskInfo {
         Self { config, pid }
     }
 
+    #[allow(dead_code)]
     pub fn config(&self) -> &TaskConfig {
         &self.config
     }
@@ -46,7 +47,8 @@ impl TaskResult {
         Self { info, status }
     }
 
-    pub fn into(&self) -> &TaskInfo {
+    #[allow(dead_code)]
+    pub fn info(&self) -> &TaskInfo {
         &self.info
     }
 
