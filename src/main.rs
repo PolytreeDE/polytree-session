@@ -7,12 +7,12 @@ use std::ffi::CString;
 fn main() {
     let wm_task_config = TaskConfig::new("polytreewm");
     let wm_task = WMTask::start(wm_task_config).unwrap();
-    unsafe { libc::exit(wm_task.wait().status()) }
+    let wm_task_result = wm_task.wait();
+    let wm_task_status = wm_task_result.status();
+    unsafe { libc::exit(wm_task_status) }
 }
 
-struct WMTask {
-    pid: libc::pid_t,
-}
+struct WMTask(TaskInfo);
 
 impl Task for WMTask {
     fn start(config: TaskConfig) -> Result<Self, String> {
@@ -30,16 +30,16 @@ impl Task for WMTask {
                 libc::exit(libc::EXIT_FAILURE);
             }
 
-            Ok(Self { pid })
+            Ok(Self(TaskInfo::new(config, pid)))
         }
     }
 
     fn wait(self) -> TaskResult {
         unsafe {
             let status: i32 = 0;
-            libc::waitpid(self.pid, status as *mut i32, 0);
+            libc::waitpid(self.0.pid(), status as *mut i32, 0);
             let status = libc::WEXITSTATUS(status);
-            TaskResult::new(status)
+            TaskResult::new(self.0, status)
         }
     }
 }

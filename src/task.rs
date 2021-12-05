@@ -7,7 +7,13 @@ pub struct TaskConfig {
     exe: String,
 }
 
+pub struct TaskInfo {
+    config: TaskConfig,
+    pid: libc::pid_t,
+}
+
 pub struct TaskResult {
+    info: TaskInfo,
     status: i32,
 }
 
@@ -21,9 +27,27 @@ impl TaskConfig {
     }
 }
 
+impl TaskInfo {
+    pub fn new(config: TaskConfig, pid: libc::pid_t) -> Self {
+        Self { config, pid }
+    }
+
+    pub fn config(&self) -> &TaskConfig {
+        &self.config
+    }
+
+    pub fn pid(&self) -> libc::pid_t {
+        self.pid
+    }
+}
+
 impl TaskResult {
-    pub fn new(status: i32) -> Self {
-        Self { status }
+    pub fn new(info: TaskInfo, status: i32) -> Self {
+        Self { info, status }
+    }
+
+    pub fn into(&self) -> &TaskInfo {
+        &self.info
     }
 
     pub fn status(&self) -> i32 {
