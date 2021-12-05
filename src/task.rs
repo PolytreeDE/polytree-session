@@ -89,4 +89,14 @@ pub trait Task: Debug + Sized {
             TaskResult::new(self.info().clone(), status)
         }
     }
+
+    fn terminate(self) -> TaskResult {
+        unsafe {
+            libc::kill(self.info().pid(), libc::SIGKILL);
+            let status: i32 = 0;
+            libc::waitpid(self.info().pid(), status as *mut i32, 0);
+            let status = libc::WEXITSTATUS(status);
+            TaskResult::new(self.info().clone(), status)
+        }
+    }
 }
