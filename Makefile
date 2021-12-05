@@ -8,7 +8,7 @@ SYSPREFIX = /usr
 ICONSPREFIX = $(SYSPREFIX)/share/icons
 XSESSIONSPREFIX = $(SYSPREFIX)/share/xsessions
 
-SRC = Cargo.toml src/main.rs
+SRC = Cargo.toml src/main.rs src/task.rs
 
 target/debug/polytree-session: $(SRC)
 	cargo build
