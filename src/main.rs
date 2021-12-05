@@ -5,7 +5,8 @@ use crate::task::*;
 use std::ffi::CString;
 
 fn main() {
-    let wm_task = WMTask::start().unwrap();
+    let wm_task_config = TaskConfig::new("polytreewm");
+    let wm_task = WMTask::start(wm_task_config).unwrap();
     unsafe { libc::exit(wm_task.wait().status()) }
 }
 
@@ -14,7 +15,7 @@ struct WMTask {
 }
 
 impl Task for WMTask {
-    fn start() -> Result<Self, String> {
+    fn start(config: TaskConfig) -> Result<Self, String> {
         unsafe {
             let pid = libc::fork();
 
@@ -23,7 +24,7 @@ impl Task for WMTask {
             }
 
             if pid == 0 {
-                let arg0 = CString::new(b"polytreewm" as &[u8]).unwrap();
+                let arg0 = CString::new(config.exe().as_bytes()).unwrap();
                 let args = vec![arg0.as_ptr(), std::ptr::null()];
                 libc::execvp(arg0.as_ptr(), args.as_ptr());
                 libc::exit(libc::EXIT_FAILURE);
